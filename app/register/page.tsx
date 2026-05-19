@@ -58,15 +58,51 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" type="text" {...form.register("name")} />
+                  <div>
+                    <Input
+                      id="name"
+                      type="text"
+                      aria-invalid={!!form.formState.errors.name}
+                      {...form.register("name")}
+                    />
+                    {form.formState.errors.name && (
+                      <p className="text-sm text-destructive mt-1">
+                        {form.formState.errors.name.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" {...form.register("email")} />
+                  <div>
+                    <Input
+                      id="email"
+                      type="email"
+                      aria-invalid={!!form.formState.errors.email}
+                      {...form.register("email")}
+                    />
+                    {form.formState.errors.email && (
+                      <p className="text-sm text-destructive mt-1">
+                        {form.formState.errors.email.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" type="tel" {...form.register("phone")} />
+                  <div>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      aria-invalid={!!form.formState.errors.phone}
+                      {...form.register("phone")}
+                    />
+                    {form.formState.errors.phone && (
+                      <p className="text-sm text-destructive mt-1">
+                        {form.formState.errors.phone.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="company">
@@ -75,19 +111,30 @@ export default function RegisterPage() {
                       (optional)
                     </span>
                   </Label>
-                  <Input
-                    id="company"
-                    type="text"
-                    {...form.register("company")}
-                  />
+                  <div>
+                    <Input
+                      id="company"
+                      type="text"
+                      aria-invalid={!!form.formState.errors.company}
+                      {...form.register("company")}
+                    />
+                    {form.formState.errors.company && (
+                      <p className="text-sm text-destructive mt-1">
+                        {form.formState.errors.company.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
               <Button
                 type="submit"
+                disabled={form.formState.isSubmitting}
                 className="w-full h-12 text-base font-semibold"
               >
-                Submit registration
+                {form.formState.isSubmitting
+                  ? "Submitting..."
+                  : "Submit registration"}
               </Button>
             </form>
 
