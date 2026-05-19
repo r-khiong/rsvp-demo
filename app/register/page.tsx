@@ -1,5 +1,10 @@
 "use client";
 
+import { CalendarCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 export default function RegisterPage() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -13,56 +18,68 @@ export default function RegisterPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
-        <h1 className="text-2xl font-semibold mb-6">Register</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label className="flex flex-col gap-1.5 text-sm">
-            Name
-            <input
-              name="name"
-              type="text"
-              required
-              className="border border-zinc-300 dark:border-zinc-700 rounded-md px-3 py-2 bg-white dark:bg-zinc-900"
-            />
-          </label>
+    <main className="grid min-h-svh lg:grid-cols-2">
+      <div className="hidden lg:flex flex-col justify-between bg-zinc-900 p-10 text-zinc-50">
+        <div className="flex items-center gap-2 font-semibold">
+          <CalendarCheck className="h-5 w-5" />
+          <span className="text-base">RSVP Demo</span>
+        </div>
+        <blockquote className="space-y-2">
+          <p className="text-lg leading-relaxed">
+            &ldquo;Manage event RSVPs without the spreadsheet chaos.&rdquo;
+          </p>
+          <footer className="text-sm text-zinc-400">— r.khiong</footer>
+        </blockquote>
+      </div>
 
-          <label className="flex flex-col gap-1.5 text-sm">
-            Email
-            <input
-              name="email"
-              type="email"
-              required
-              className="border border-zinc-300 dark:border-zinc-700 rounded-md px-3 py-2 bg-white dark:bg-zinc-900"
-            />
-          </label>
+      <div className="flex flex-col">
+        <div className="flex justify-end p-6">
+          <span className="text-sm font-medium">Admin</span>
+        </div>
 
-          <label className="flex flex-col gap-1.5 text-sm">
-            Phone
-            <input
-              name="phone"
-              type="tel"
-              required
-              className="border border-zinc-300 dark:border-zinc-700 rounded-md px-3 py-2 bg-white dark:bg-zinc-900"
-            />
-          </label>
+        <div className="flex flex-1 items-center justify-center px-6 pb-10">
+          <div className="w-full max-w-md space-y-6">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold">Register for the event</h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your details below to register
+              </p>
+            </div>
 
-          <label className="flex flex-col gap-1.5 text-sm">
-            Company <span className="text-zinc-500">(optional)</span>
-            <input
-              name="company"
-              type="text"
-              className="border border-zinc-300 dark:border-zinc-700 rounded-md px-3 py-2 bg-white dark:bg-zinc-900"
-            />
-          </label>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" name="name" type="text" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" type="email" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" name="phone" type="tel" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="company">
+                  Company
+                  <span className="font-normal text-muted-foreground">
+                    (optional)
+                  </span>
+                </Label>
+                <Input id="company" name="company" type="text" />
+              </div>
 
-          <button
-            type="submit"
-            className="mt-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium py-2 px-4 rounded-md hover:opacity-90"
-          >
-            Submit
-          </button>
-        </form>
+              <Button type="submit" className="w-full">
+                Submit registration
+              </Button>
+            </form>
+
+            <p className="text-center text-xs text-muted-foreground">
+              By submitting, you agree this is a demo event. No real data is
+              stored long-term.
+            </p>
+          </div>
+        </div>
       </div>
     </main>
   );
