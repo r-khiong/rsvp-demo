@@ -1,20 +1,24 @@
 "use client";
 
 import { CalendarCheck } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  registerFormSchema,
+  type RegisterFormValues,
+} from "@/lib/validations/register";
 
 export default function RegisterPage() {
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    console.log({
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      company: formData.get("company"),
-    });
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerFormSchema),
+    mode: "onTouched",
+  });
+
+  function onSubmit(data: RegisterFormValues) {
+    console.log(data);
   }
 
   return (
@@ -46,19 +50,23 @@ export default function RegisterPage() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6"
+              noValidate
+            >
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" name="name" type="text" required />
+                  <Input id="name" type="text" {...form.register("name")} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" required />
+                  <Input id="email" type="email" {...form.register("email")} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" name="phone" type="tel" required />
+                  <Input id="phone" type="tel" {...form.register("phone")} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="company">
@@ -67,7 +75,11 @@ export default function RegisterPage() {
                       (optional)
                     </span>
                   </Label>
-                  <Input id="company" name="company" type="text" />
+                  <Input
+                    id="company"
+                    type="text"
+                    {...form.register("company")}
+                  />
                 </div>
               </div>
 
