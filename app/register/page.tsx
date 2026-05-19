@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { CalendarCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { nanoid } from "nanoid";
+import { supabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,13 +16,52 @@ import {
 } from "@/lib/validations/register";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
     mode: "onTouched",
   });
 
-  function onSubmit(data: RegisterFormValues) {
-    console.log(data);
+  async function onSubmit(data: RegisterFormValues) {
+    setServerError(null);
+
+    const { data: event, error: eventErr } = await supabase
+      .from("events")
+      .select("id")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (eventErr || !event) {
+      setServerError("Something went wrong. Please try again.");
+      return;
+    }
+
+    const token = nanoid();
+
+    const { error: insertErr } = await supabase
+      .from("registrations")
+      .insert({
+        event_id: event.id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company || null,
+        token,
+        status: "pending",
+      });
+
+    if (insertErr) {
+      if (insertErr.code === "23505") {
+        setServerError("This email has already registered.");
+      } else {
+        setServerError("Something went wrong. Please try again.");
+      }
+      return;
+    }
+
+    router.push(`/status/${token}`);
   }
 
   return (
@@ -49,6 +92,15 @@ export default function RegisterPage() {
                 Enter your details below to register
               </p>
             </div>
+
+            {serverError && (
+              <div
+                role="alert"
+                className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+              >
+                {serverError}
+              </div>
+            )}
 
             <form
               onSubmit={form.handleSubmit(onSubmit)}

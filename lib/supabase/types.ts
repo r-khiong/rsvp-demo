@@ -1,6 +1,6 @@
 export type RegistrationStatus = "pending" | "approved" | "rejected";
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       events: {
@@ -19,6 +19,7 @@ export interface Database {
           name?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       registrations: {
         Row: {
@@ -54,7 +55,28 @@ export interface Database {
           status?: RegistrationStatus;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "registrations_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      [_ in never]: never;
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
   };
-}
+};
