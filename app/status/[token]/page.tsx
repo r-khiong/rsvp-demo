@@ -34,9 +34,7 @@ export default async function StatusPage({
   const { token } = await params;
 
   const { data, error } = await supabase
-    .from("registrations")
-    .select("*, events(*)")
-    .eq("token", token)
+    .rpc("get_registration_by_token", { p_token: token })
     .single();
 
   if (error || !data) {
@@ -65,7 +63,7 @@ export default async function StatusPage({
             <dl className="space-y-3 text-sm">
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Event</dt>
-                <dd className="font-medium">{data.events?.name ?? "—"}</dd>
+                <dd className="font-medium">{data.event_name ?? "—"}</dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">Name</dt>

@@ -70,7 +70,21 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_registration_by_token: {
+        Args: { p_token: string };
+        Returns: {
+          id: string;
+          event_id: string;
+          name: string;
+          email: string;
+          phone: string;
+          company: string | null;
+          token: string;
+          status: RegistrationStatus;
+          created_at: string;
+          event_name: string | null;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
