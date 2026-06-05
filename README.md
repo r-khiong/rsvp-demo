@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RSVP Demo
 
-## Getting Started
+A lightweight event registration management system — replacing the "manage RSVPs in a spreadsheet + email" workflow with a real product flow: attendees register and track their status by token; organizers review and manage the list.
 
-First, run the development server:
+**Live demo:** https://r-khiong-rsvp-demo.netlify.app
+
+> Portfolio project demonstrating a full SDLC walkthrough (PRD → user flow → sprint backlog → implementation → deploy) and a PM-led, AI-assisted development workflow. Not a production SaaS.
+
+---
+
+## Problem
+
+Small event organizers often track RSVPs by hand in spreadsheets and email threads: no single source of truth, no self-service status lookup for attendees, and error-prone manual approval. This demo provides:
+
+- **Attendees** — fill in a form, get a private status link, check their approval status.
+- **Organizers** — review the registration list and approve/reject in batches *(in progress)*.
+
+## Features
+
+| Flow | Status |
+|------|--------|
+| Register (`/register`) → submit → private status page (`/status/[token]`) | ✅ Live |
+| Token-scoped status lookup (no public access to the full list) | ✅ Live |
+| Admin login + registrations table + batch approve/reject | 🔜 Roadmap |
+| QR status + manual check-in | 🔜 Roadmap |
+
+## Tech Stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 16 (App Router) |
+| Runtime | React 19 (Server Components by default) |
+| Language | TypeScript (strict) |
+| Styling | Tailwind CSS v4 (CSS-first `@theme`) |
+| UI | shadcn/ui (radix-nova) + lucide-react |
+| Forms | react-hook-form + zod |
+| Auth + DB | Supabase (Postgres, Row Level Security) |
+| Hosting | Netlify (git-linked continuous deploy) |
+| Package manager | pnpm |
+
+## Local Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+
+# Create .env.local with your Supabase project keys:
+# NEXT_PUBLIC_SUPABASE_URL=...
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+
+pnpm dev      # http://localhost:3000  (redirects to /register)
+pnpm build    # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Database schema and RLS policies live in [`supabase/migrations/`](supabase/migrations/) and are applied via the Supabase Dashboard SQL Editor.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Architecture & Decisions Log
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Token-scoped reads via RPC.** The status page never reads the `registrations` table directly. A `SECURITY DEFINER` function `get_registration_by_token(token)` returns only the single matching row; anonymous `SELECT` on the table is revoked. This closes a PII-exposure hole (the public anon key could otherwise dump the whole list) while keeping the attendee flow working. See [`supabase/migrations/20260603120000_harden_registrations_rls.sql`](supabase/migrations/20260603120000_harden_registrations_rls.sql).
+- **Role separation by design.** Anonymous users may only `INSERT` (register) and call the token RPC. Admin (authenticated) full-table access is added separately, so the public and admin paths never overlap.
+- **Server Components by default.** Client components (`'use client'`) are used only where interaction requires it (e.g. the registration form).
+- **Continuous deployment.** `main` auto-deploys to production on Netlify; feature branches get isolated deploy previews.
 
-## Learn More
+## Roadmap
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **RSVP-4** — admin auth + registrations table + status filter + batch approve/reject.
+- **RSVP-5** — full status states + QR code + token mechanism.
+- **RSVP-6** — manual check-in + search.
+- **Polish** — landing page, responsive pass, README finalization.
