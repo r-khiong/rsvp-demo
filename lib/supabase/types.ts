@@ -32,6 +32,8 @@ export type Database = {
           token: string;
           status: RegistrationStatus;
           created_at: string;
+          status_updated_at: string | null;
+          remark: string | null;
         };
         Insert: {
           id?: string;
@@ -43,6 +45,8 @@ export type Database = {
           token: string;
           status?: RegistrationStatus;
           created_at?: string;
+          status_updated_at?: string | null;
+          remark?: string | null;
         };
         Update: {
           id?: string;
@@ -54,6 +58,8 @@ export type Database = {
           token?: string;
           status?: RegistrationStatus;
           created_at?: string;
+          status_updated_at?: string | null;
+          remark?: string | null;
         };
         Relationships: [
           {
