@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { CalendarCheck } from "lucide-react";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -33,6 +33,7 @@ export default async function StatusPage({
 }) {
   const { token } = await params;
 
+  const supabase = await createClient();
   const { data, error } = await supabase
     .rpc("get_registration_by_token", { p_token: token })
     .single();
