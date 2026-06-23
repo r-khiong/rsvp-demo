@@ -126,5 +126,8 @@
   }
   html {
     @apply font-sans;
+    /* Always reserve the scrollbar gutter so centered (mx-auto) layouts don't
+       shift horizontally when content height changes between views. */
+    scrollbar-gutter: stable;
   }
 }
