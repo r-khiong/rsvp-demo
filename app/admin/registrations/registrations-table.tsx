@@ -105,7 +105,7 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
       </div>
 
       <div className="rounded-lg border">
-        <Table>
+        <Table className="table-fixed">
           <TableHeader>
             <TableRow>
               <TableHead className="w-10">
@@ -115,11 +115,11 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
                   aria-label="Select all on this page"
                 />
               </TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead className="w-[15%]">Name</TableHead>
+              <TableHead className="w-[22%]">Email</TableHead>
+              <TableHead className="w-[12%]">Phone</TableHead>
+              <TableHead className="w-[18%]">Company</TableHead>
+              <TableHead className="w-[12%]">Status</TableHead>
               <TableHead>Remark</TableHead>
             </TableRow>
           </TableHeader>
@@ -141,14 +141,26 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
                       aria-label={`Select ${row.name}`}
                     />
                   </TableCell>
-                  <TableCell className="font-medium">{row.name}</TableCell>
-                  <TableCell>{row.email}</TableCell>
+                  <TableCell className="truncate font-medium" title={row.name}>
+                    {row.name}
+                  </TableCell>
+                  <TableCell className="truncate" title={row.email}>
+                    {row.email}
+                  </TableCell>
                   <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.company ?? "—"}</TableCell>
+                  <TableCell
+                    className="truncate"
+                    title={row.company ?? undefined}
+                  >
+                    {row.company ?? "—"}
+                  </TableCell>
                   <TableCell>
                     <StatusBadge status={row.status} />
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell
+                    className="truncate text-muted-foreground"
+                    title={row.remark ?? undefined}
+                  >
                     {row.remark ?? "—"}
                   </TableCell>
                 </TableRow>
