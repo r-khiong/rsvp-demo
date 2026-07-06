@@ -34,6 +34,7 @@ export default function RegisterPage() {
       .single();
 
     if (eventErr || !event) {
+      console.error("[register] event fetch failed", eventErr);
       setServerError("Something went wrong. Please try again.");
       return;
     }
@@ -53,6 +54,7 @@ export default function RegisterPage() {
       });
 
     if (insertErr) {
+      console.error("[register] insert failed", insertErr);
       if (insertErr.code === "23505") {
         setServerError("This email has already registered.");
       } else {
