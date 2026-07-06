@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CalendarCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -34,6 +35,7 @@ export default function RegisterPage() {
       .single();
 
     if (eventErr || !event) {
+      console.error("[register] event fetch failed", eventErr);
       setServerError("Something went wrong. Please try again.");
       return;
     }
@@ -53,6 +55,7 @@ export default function RegisterPage() {
       });
 
     if (insertErr) {
+      console.error("[register] insert failed", insertErr);
       if (insertErr.code === "23505") {
         setServerError("This email has already registered.");
       } else {
@@ -193,6 +196,12 @@ export default function RegisterPage() {
             <p className="text-center text-xs text-muted-foreground">
               By submitting, you agree this is a demo event. No real data is
               stored long-term.
+            </p>
+
+            <p className="text-center text-xs text-muted-foreground">
+              <Link href="/admin/login" className="hover:underline">
+                Organizer login
+              </Link>
             </p>
           </div>
         </div>

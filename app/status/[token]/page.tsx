@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ApprovedQr } from "@/components/status/approved-qr";
 import type { RegistrationStatus } from "@/lib/supabase/types";
 
 const statusVariant: Record<
@@ -75,6 +76,15 @@ export default async function StatusPage({
                 <dd className="font-medium">{data.email}</dd>
               </div>
             </dl>
+
+            {data.status === "approved" && (
+              <div className="flex flex-col items-center gap-3 pt-2">
+                <ApprovedQr token={token} />
+                <p className="text-sm text-muted-foreground">
+                  Show this QR code at check-in
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
