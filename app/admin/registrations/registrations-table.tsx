@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { Button } from "@/components/ui/button";
@@ -52,6 +53,17 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
 
   function toggleAll() {
     setSelected(allSelected ? new Set() : new Set(rows.map((r) => r.id)));
+  }
+
+  async function copyStatusLink(token: string) {
+    try {
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/status/${token}`,
+      );
+      toast.success("Status link copied");
+    } catch {
+      toast.error("Couldn't copy link");
+    }
   }
 
   function runBatch(action: BatchAction) {
@@ -121,6 +133,9 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
               <TableHead className="w-[18%]">Company</TableHead>
               <TableHead className="w-[12%]">Status</TableHead>
               <TableHead>Remark</TableHead>
+              <TableHead className="w-12">
+                <span className="sr-only">Status link</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -162,6 +177,19 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
                     title={row.remark ?? undefined}
                   >
                     {row.remark ?? "—"}
+                  </TableCell>
+                  <TableCell>
+                    {row.status === "approved" && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8"
+                        onClick={() => copyStatusLink(row.token)}
+                        aria-label={`Copy status link for ${row.name}`}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               );
