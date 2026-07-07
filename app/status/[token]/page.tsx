@@ -40,6 +40,12 @@ export default async function StatusPage({
     .single();
 
   if (error || !data) {
+    // PGRST116 = zero rows (a genuinely unknown token). Anything else is a
+    // query/permission failure — log it so misconfigured grants or outages
+    // are visible in server logs instead of masquerading as 404s.
+    if (error && error.code !== "PGRST116") {
+      console.error("[status] get_registration_by_token failed", error);
+    }
     notFound();
   }
 
