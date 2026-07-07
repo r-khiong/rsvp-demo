@@ -84,7 +84,9 @@ export default function RegisterPage() {
 
       <div className="flex flex-col">
         <div className="flex justify-end p-6">
-          <span className="text-sm font-medium">Admin</span>
+          <Link href="/admin/login" className="text-sm font-medium hover:underline">
+            Admin
+          </Link>
         </div>
 
         <div className="flex flex-1 justify-center px-6 pt-4 pb-10 lg:items-center lg:px-12 lg:pt-0">
@@ -196,12 +198,6 @@ export default function RegisterPage() {
             <p className="text-center text-xs text-muted-foreground">
               By submitting, you agree this is a demo event. No real data is
               stored long-term.
-            </p>
-
-            <p className="text-center text-xs text-muted-foreground">
-              <Link href="/admin/login" className="hover:underline">
-                Organizer login
-              </Link>
             </p>
           </div>
         </div>
