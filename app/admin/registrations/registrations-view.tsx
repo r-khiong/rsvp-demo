@@ -24,9 +24,11 @@ function filterHref(filter: StatusFilter): string {
 export function RegistrationsView({
   rows,
   initialStatus,
+  isDemo = false,
 }: {
   rows: Registration[];
   initialStatus: StatusFilter;
+  isDemo?: boolean;
 }) {
   const [filter, setFilter] = useState<StatusFilter>(initialStatus);
 
@@ -73,7 +75,7 @@ export function RegistrationsView({
             </p>
           </div>
         ) : (
-          <RegistrationsTable key={filter} rows={filtered} />
+          <RegistrationsTable key={filter} rows={filtered} isDemo={isDemo} />
         )}
       </div>
     </>

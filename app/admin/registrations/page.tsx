@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { CalendarCheck } from "lucide-react";
+import { CalendarCheck, Eye } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { isStatusFilter, type StatusFilter } from "@/lib/status";
@@ -16,6 +16,13 @@ export default async function RegistrationsPage({
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/admin/login");
+
+  // RSVP-8: demo session detection stays server-side — the email comparison
+  // and the env var never reach the client. UI below is presentation only;
+  // the real write ban is the restrictive RLS policy (rsvp8 migration).
+  const isDemo =
+    !!process.env.DEMO_ADMIN_EMAIL &&
+    user.email === process.env.DEMO_ADMIN_EMAIL;
 
   const params = await searchParams;
   const initialStatus: StatusFilter = isStatusFilter(params.status)
@@ -44,6 +51,18 @@ export default async function RegistrationsPage({
         </div>
       </header>
 
+      {isDemo && (
+        <div
+          role="status"
+          className="mt-6 flex items-center gap-2 rounded-lg border bg-muted px-4 py-3 text-sm text-muted-foreground"
+        >
+          <Eye className="h-4 w-4 shrink-0" aria-hidden="true" />
+          <span>
+            Demo mode (read-only) — batch actions disabled. Seeded demo data.
+          </span>
+        </div>
+      )}
+
       <div className="mt-8 space-y-1">
         <h1 className="text-3xl font-bold">Registrations</h1>
         <p className="text-sm text-muted-foreground">
@@ -59,7 +78,11 @@ export default async function RegistrationsPage({
           Could not load registrations. Please refresh the page.
         </div>
       ) : (
-        <RegistrationsView rows={rows ?? []} initialStatus={initialStatus} />
+        <RegistrationsView
+          rows={rows ?? []}
+          initialStatus={initialStatus}
+          isDemo={isDemo}
+        />
       )}
     </main>
   );
