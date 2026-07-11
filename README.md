@@ -110,6 +110,6 @@ Highlights below — the full log with trade-offs is in [`docs/decision-log.md`]
 
 ## Author
 
-**Renata Jiang (r.khiong)** — PM transitioning from creative event production into software product/project management.
+**r.khiong** — PM transitioning into software project management.
 
 [LinkedIn](https://www.linkedin.com/in/renatajiang) · [GitHub](https://github.com/r-khiong)
