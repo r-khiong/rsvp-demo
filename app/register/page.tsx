@@ -72,7 +72,7 @@ export default function RegisterPage() {
       <div className="hidden lg:flex flex-col justify-between bg-zinc-900 p-10 text-zinc-50">
         <div className="flex items-center gap-2 font-semibold">
           <CalendarCheck className="h-5 w-5" />
-          <span className="text-lg">RSVP Demo</span>
+          <span className="text-lg">RSVP</span>
         </div>
         <blockquote className="space-y-2">
           <p className="text-lg leading-relaxed">
