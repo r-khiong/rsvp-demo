@@ -130,4 +130,12 @@
        shift horizontally when content height changes between views. */
     scrollbar-gutter: stable;
   }
+
+  /* Story-page anchor jumps (About / Back to top). Gated so users who opt
+     out of motion get instant jumps. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
 }

@@ -39,7 +39,7 @@ export default async function RegistrationsPage({
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 font-semibold">
           <CalendarCheck className="h-5 w-5" />
-          <span className="text-lg">RSVP Demo</span>
+          <span className="text-lg">RSVP</span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground">{user.email}</span>

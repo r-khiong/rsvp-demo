@@ -54,7 +54,7 @@ export default async function StatusPage({
       <div className="w-full max-w-md space-y-6">
         <div className="flex items-center justify-center gap-2 font-semibold">
           <CalendarCheck className="h-5 w-5" />
-          <span className="text-lg">RSVP Demo</span>
+          <span className="text-lg">RSVP</span>
         </div>
 
         <Card>
