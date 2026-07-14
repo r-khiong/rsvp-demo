@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CalendarCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -17,10 +17,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { loginFormSchema, type LoginFormValues } from "@/lib/validations/login";
+import { signInAsDemo } from "./actions";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
+  const [isDemoPending, startDemoTransition] = useTransition();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     mode: "onTouched",
@@ -41,6 +43,16 @@ export default function AdminLoginPage() {
 
     router.replace("/admin/registrations");
     router.refresh();
+  }
+
+  // RSVP-8 reviewer entry. On success the server action redirects, so this
+  // callback only ever observes the failure branch.
+  function handleDemoSignIn() {
+    setServerError(null);
+    startDemoTransition(async () => {
+      const result = await signInAsDemo();
+      if (result?.error) setServerError(result.error);
+    });
   }
 
   return (
@@ -112,12 +124,22 @@ export default function AdminLoginPage() {
 
               <Button
                 type="submit"
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting || isDemoPending}
                 className="h-12 w-full text-base font-semibold"
               >
                 {form.formState.isSubmitting ? "Signing in..." : "Sign in"}
               </Button>
             </form>
+
+            <Button
+              type="button"
+              variant="outline"
+              disabled={form.formState.isSubmitting || isDemoPending}
+              onClick={handleDemoSignIn}
+              className="mt-4 h-12 w-full text-base font-semibold"
+            >
+              {isDemoPending ? "Entering demo..." : "View demo (read-only)"}
+            </Button>
           </CardContent>
         </Card>
       </div>

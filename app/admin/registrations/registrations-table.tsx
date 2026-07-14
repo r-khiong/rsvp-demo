@@ -30,7 +30,13 @@ import { updateRegistrationsStatus } from "./actions";
 type Registration = Database["public"]["Tables"]["registrations"]["Row"];
 type BatchAction = "approved" | "rejected";
 
-export function RegistrationsTable({ rows }: { rows: Registration[] }) {
+export function RegistrationsTable({
+  rows,
+  isDemo = false,
+}: {
+  rows: Registration[];
+  isDemo?: boolean;
+}) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [confirming, setConfirming] = useState<BatchAction | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -56,6 +62,9 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
   }
 
   function runBatch(action: BatchAction) {
+    // Presentation-only guard; the actual write ban for the demo user is the
+    // restrictive RLS policy (rsvp8 migration).
+    if (isDemo) return;
     const ids = [...selected];
     startTransition(async () => {
       try {
@@ -89,14 +98,14 @@ export function RegistrationsTable({ rows }: { rows: Registration[] }) {
             <Button
               size="sm"
               variant="outline"
-              disabled={isPending}
+              disabled={isPending || isDemo}
               onClick={() => setConfirming("rejected")}
             >
               Reject selected
             </Button>
             <Button
               size="sm"
-              disabled={isPending}
+              disabled={isPending || isDemo}
               onClick={() => setConfirming("approved")}
             >
               Approve selected
