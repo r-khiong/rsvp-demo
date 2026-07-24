@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RSVP-Demo",
+  title: "RSVP",
   description: "Event RSVP & check-in system",
 };
 
