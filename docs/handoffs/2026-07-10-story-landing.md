@@ -1,6 +1,6 @@
 # RSVP Handoff — Story Landing + Demo Mode（Jul10）
 
-> 交接對象：VS Code Claude Code（repo: `r-khiong/rsvp-demo`, branch: main）
+> 交接對象：VS Code Claude Code（repo: `r-khiong/rsvp`, branch: main）
 > 來源：2026-07-10 Cowork 對話（市場研究 + portfolio 策略收斂）
 > 本文件建議 commit 進 repo：`docs/handoffs/2026-07-10-story-landing.md`
 
