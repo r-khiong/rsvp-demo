@@ -2,7 +2,7 @@
 
 A lightweight event registration management system — replacing the "manage RSVPs in a spreadsheet + email" workflow with a real product flow: attendees register and track their status by token; organizers review and manage the list in batches.
 
-**Live demo:** https://r-khiong-rsvp-demo.netlify.app
+**Live demo:** https://r-khiong-rsvp.netlify.app
 
 > Portfolio project demonstrating a full SDLC walkthrough (PRD → user flow → sprint backlog → implementation → deploy) and a PM-led, AI-assisted development workflow. Not a production SaaS.
 > The PM × AI decision boundary that governs this repo is documented in [`CLAUDE.md`](CLAUDE.md).

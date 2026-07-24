@@ -257,7 +257,7 @@ Phase 2 adds: `approved → checked_in` + `checked_in_at` column.
 | M0 — Discovery / Setup | PRD, user flow, Jira backlog, environment, first push | Sprint 0 (4/22–5/8) ✅ |
 | M1 — Build (paused mid-flight) | RSVP-3, RSVP-4 started | Sprint v2 (5/13–5/22), closed honestly at 0/4 shipped ✅ |
 | M2 — Recovery | RSVP-3 ✅ (6/3, RLS hardened) · RSVP-4 ✅ (6/11+) · RSVP-5 ✅ (accepted 7/7) · RSVP-6 ↪ Phase 2 (7/7) | Sprint v3 (6/2–6/16) + spillover, closed 7/7 |
-| M3 — Ship | Netlify production deploy, repo public, README | ✅ Live (`r-khiong-rsvp-demo.netlify.app`) |
+| M3 — Ship | Netlify production deploy, repo public, README | ✅ Live (`r-khiong-rsvp.netlify.app`) |
 | M4 — Visibility *(v0.4)* | RSVP-7 story landing + RSVP-8 read-only demo + docs-in-repo + README sync | July 2026, then **freeze** (changes only on interview feedback) |
 
 > Sprint v2 was paused by a pre-scheduled trip (5/23–5/31). Rather than retroactively

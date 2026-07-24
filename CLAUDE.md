@@ -11,7 +11,7 @@
 
 ### 1.1 這是什麼
 
-RSVP-Demo 是一個自主發起的 SaaS Side Project，主題：活動報名管理系統。取代「主辦方用試算表 + email 手動管理活動報名」的痛點，提供：
+RSVP 是一個自主發起的 SaaS Side Project，主題：活動報名管理系統。取代「主辦方用試算表 + email 手動管理活動報名」的痛點，提供：
 
 - 報名者：表單填寫 → 等待審核 → 狀態查詢 → 現場簽到
 - 主辦方：批次審核 → 名單管理 → 現場核對
@@ -57,7 +57,7 @@ M4 完成後專案封凍，變更改由面試實戰回饋驅動。
 | Auth + DB | Supabase | 最新 | Client 用 Publishable key (`NEXT_PUBLIC_SUPABASE_ANON_KEY`)、Server-side 用 Secret |
 | Hosting | Netlify | - | git-linked 自動部署、production deploy 唯一目標（見 §8.10） |
 | Package mgr | pnpm | 10.33.0 | 不用 npm、yarn |
-| Repo | GitHub | - | `r-khiong/rsvp-demo`、main branch、conventional commits |
+| Repo | GitHub | - | `r-khiong/rsvp`、main branch、conventional commits |
 
 ### 2.1 已棄用的舊寫法（不要使用）
 
@@ -334,7 +334,7 @@ Form 必有 inline validation feedback。
 
 ### 8.8 Deploy 標準
 
-- Netlify production URL 可訪問（`r-khiong-rsvp-demo.netlify.app`）
+- Netlify production URL 可訪問（`r-khiong-rsvp.netlify.app`）
 - README 完整：problem / tech stack / live demo URL / local setup / roadmap / decisions log
 - Repo public
 - Demo data 預埋：至少 1 個 test event + 3 筆 test registration（涵蓋 pending / approved / rejected 三狀態）（已落實：supabase/seed.sql，7 筆涵蓋三狀態）
